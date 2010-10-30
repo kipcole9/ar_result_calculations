@@ -20,7 +20,7 @@ p. All methods take one parameter (column name).
 |max|Max the given column.  Delegates to super() if not an AR result set|
 |regression|Ordinary Least Squares regression on the given column.  Returns the regression as an array|
 |slope|Returns the slope of a regression on a given column|
-|make_numeric_|Coerces a column to be numeric.  Useful if you have derived columns returned from a query that are not in the model definition and hence are otherwise returned as strings.  Returns **self** so is composable|
+|make_numeric|Coerces a column to be numeric.  Useful if you have derived columns returned from a query that are not in the model definition and hence are otherwise returned as strings.  Returns **self** so is composable|
 
 h1. License
 
