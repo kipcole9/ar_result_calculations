@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Kip Cole"]
   s.email       = ["kipcole9@gmail.com"]
-  s.homepage    = "http://rubygems.org/gems/ar_result_calculations"
+  s.homepage    = "http://github.com/kipcole9/ar_result_calculations"
   s.summary     = %q{Calculations on ActiveRecord result sets.}
   s.description = <<-EOF
     Defines Array#calculation methods for ActiveRecord result sets. Provides
