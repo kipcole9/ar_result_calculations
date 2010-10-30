@@ -3,10 +3,17 @@ h1. Description
 p. ar_result_calculations adds methods to Array for when Array is an ActiveRecord result set. For example:
 
 bc. Product.all.sum(:price)
-Product.all.average(:price)
+
+p. Will return the sum of the attribute :price from all rows in the result set.  Note this is not the same as Product.sum(:price) which will create an SQL statement that does the summing.  When possible the ActiveRecord call which uses SQL will be more efficient if the result set has not already been returned.  
+
+bc. Product.all.average(:price)
 Product.all.regression(:sales_volumn)
 
-p. Will return the sum of the attribute :price from all rows.  Note this is not the same as Product.sum(:price) which will create an SQL statement that does the summing.
+p. Will calculate the average and regression of the specified columns.
+
+bc. Product.all(:select => '(price * 2) as double_price').make_numeric(:double_price).sum(:double_price)
+
+p. Will return the sum of the derived column 'double_price'.  Note the call to **make_numeric** which is will coerce the derived column into numbers that can then be summed.  ActiveRecord returns derived columns as strings hence the required coercion.
 
 h2. Methods created on Array
 
@@ -18,8 +25,8 @@ p. All methods take one parameter (column name).
 |count|Count the given column.  Delegates to super() if not an AR result set|
 |min|Min the given column.  Delegates to super() if not an AR result set|
 |max|Max the given column.  Delegates to super() if not an AR result set|
-|regression|Ordinary Least Squares regression on the given column.  Returns the regression as an array|
-|slope|Returns the slope of a regression on a given column|
+|regression|Ordinary Least Squares regression on the given column.  Returns the regression as an array. Argument should be either an ActiveRecord result set or an array of numbers|
+|slope|Returns the slope of a regression on a given column. Argument should be either an ActiveRecord result set or an array of numbers|
 |make_numeric|Coerces a column to be numeric.  Useful if you have derived columns returned from a query that are not in the model definition and hence are otherwise returned as strings.  Returns **self** so is composable|
 
 h1. License
