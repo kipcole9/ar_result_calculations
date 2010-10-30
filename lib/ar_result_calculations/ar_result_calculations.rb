@@ -33,7 +33,7 @@ module ArResultCalculations
       # 
       #   column:  The column name to count
       def count(column = nil)
-        return super unless column && first && first.class.respond_to?(:descends_from_active_record?)         
+        return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)         
         inject( 0 ) { |sum, x| x[column].nil? ? sum : sum + 1 }
       end
       
