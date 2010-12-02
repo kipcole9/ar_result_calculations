@@ -22,8 +22,12 @@ module ArResultCalculations
       # 
       #   column:  The column name to average
       def mean(column = nil)
-        return super() unless column && first && first.class.respond_to?(:descends_from_active_record?)
-        (length > 0) ? sum(column) / length : 0
+        total = if column && first && first.class.respond_to?(:descends_from_active_record?)
+          sum(column)
+        else
+          sum
+        end
+        (length > 0) ? total / length : 0
       end
       alias :avg  :mean
       alias :average  :mean
@@ -83,6 +87,25 @@ module ArResultCalculations
         Array::LinearRegression.new(series || self).slope
       end
       alias :trend :slope
+      
+      # Return the variance of a column from an active record result set (or self)
+      # 
+      #  column:  The column name to regress
+      def sample_variance(column = nil)
+        data = column ? map(&column.to_sym) : self
+        return nil unless data.first
+        avg = data.average
+        sum = data.inject(0) {|acc, i| acc + (i - avg)**2 }
+        1 / data.length.to_f * sum
+      end
+
+      # Return the standard deviation of a column in an active record result set (or self)
+      #
+      #  column:  The column of which you want the standard deviation
+      def standard_deviation(column = nil)
+        return nil unless variance = sample_variance(column)
+        Math.sqrt(variance)
+      end
       
       # Force a column to be numeric.  Useful if you have derived
       # columns from a query that is not part of the base model.

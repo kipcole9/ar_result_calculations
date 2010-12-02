@@ -28,6 +28,8 @@ p. All methods take one parameter (column name).
 |regression|Ordinary Least Squares regression on the given column.  Returns the regression as an array. Argument should be either an ActiveRecord result set or an array of numbers|
 |slope|Returns the slope of a regression on a given column. Argument should be either an ActiveRecord result set or an array of numbers|
 |make_numeric|Coerces a column to be numeric.  Useful if you have derived columns returned from a query that are not in the model definition and hence are otherwise returned as strings.  Returns **self** so is composable|
+|sample_variance|Calculates the sample variance of a column (for active record result sets) or self (for an array)|
+|standard_deviation|Calculates the standard deviation of a column (for active record result sets) or self (for an array)|
 
 h1. License
 
