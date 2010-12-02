@@ -31,6 +31,7 @@ p. All methods take one parameter (column name).
 |sample_variance|Calculates the sample variance of a column (for active record result sets) or self (for an array)|
 |standard_deviation|Calculates the standard deviation of a column (for active record result sets) or self (for an array)|
 |median|Calculates the median of a column (for active record result sets) or self (for an array)|
+|mode|Calculates the mode of a column (for active record result sets) or self (for an array)|
 
 h1. License
 
