@@ -107,6 +107,35 @@ module ArResultCalculations
         Math.sqrt(variance)
       end
       
+      # Return the median of a column in an active record result set (or self)
+      #
+      #  column:  The column of which you want the median
+      #  already_sorted: Is the data already sorted (default: true)
+    	def median(column = nil, options = {:already_sorted => true})
+    	  options, column = column, nil if column && column.is_a?(Hash)
+    	  data = column ? map(&column.to_sym) : self
+    	  return nil if data.empty?
+    	  data = data.sort unless options[:already_sorted]
+    	  median_position = length / 2
+    	  length_is_even? ? data[median_position] : mean(data[median_position - 1..median_position])
+    	end
+      
+      # Return the mode(s) of a column in an active record result set (or self)
+      #
+      #  column: The column of which you want the mode (or modes)
+      #  find_all: Find all modes (default: true)
+      def mode(column = nil, options = {:find_all => false})
+    	  options, column = column, nil if column && column.is_a?(Hash)
+        data = column ? map(&column.to_sym) : self
+    	  histogram = data.inject(Hash.new(0)) { |h, n| h[n] += 1; h }
+    	  modes = nil
+    	  histogram.each_pair do |item, times|
+    	    modes << item if modes && times == modes[0] and options[:find_all]
+    	    modes = [times, item] if (!modes && times > 1) or (modes && times > modes[0])
+    	  end
+        modes && options[:find_all] ? modes[1..modes.size] : modes.try(:[], 1)
+    	end
+      	
       # Force a column to be numeric.  Useful if you have derived
       # columns from a query that is not part of the base model.
       # 
@@ -140,6 +169,10 @@ module ArResultCalculations
       
       def is_float?(val)
         val.is_a?(Float) || val.is_a?(Rational)
+      end
+      
+      def length_is_even?
+        length % 2 == 0 
       end
     end
     
