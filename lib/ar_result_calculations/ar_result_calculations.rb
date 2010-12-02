@@ -117,7 +117,7 @@ module ArResultCalculations
     	  return nil if data.empty?
     	  data = data.sort unless options[:already_sorted]
     	  median_position = length / 2
-    	  length_is_even? ? data[median_position] : mean(data[median_position - 1..median_position])
+    	  length_is_even? ? data[median_position-1..median_position].mean : data[median_position]
     	end
       
       # Return the mode(s) of a column in an active record result set (or self)
